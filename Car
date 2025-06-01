@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cat Fact Generator</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            text-align: center;
+            padding: 40px;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+        }
+        #cat-container {
+            margin: 30px auto;
+            max-width: 500px;
+        }
+        img { max-width: 100%; border-radius: 12px; }
+    </style>
+</head>
+<body>
+    <h1>😺 Random Cat Generator</h1>
+    <button onclick="getCat()">Gimme a Cat!</button>
+    <div id="cat-container"></div>
+
+    <script>
+        async function getCat() {
+            // Fetch a random cat image
+            const imgRes = await fetch("https://cataas.com/cat?json=true");
+            const imgData = await imgRes.json();
+            const catImg = `https://cataas.com${imgData.url}`;
+            
+            // Fetch a random cat fact
+            const factRes = await fetch("https://meowfacts.herokuapp.com/");
+            const factData = await factRes.json();
+            const fact = factData.data[0];
+            
+            // Display results
+            document.getElementById("cat-container").innerHTML = `
+                <img src="${catImg}" alt="Random cat">
+                <p><strong>Fun Fact:</strong> ${fact}</p>
+            `;
+        }
+    </script>
+</body>
+</html>
